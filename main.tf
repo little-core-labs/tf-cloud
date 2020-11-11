@@ -23,23 +23,18 @@ variable "gh_machine_token" {
   default     = null
 }
 
-provider "github" {
-  token        = var.gh_machine_token
-  organization = "little-core-labs"
-  version      = "~> 2.7.0"
+variable "tfe_little_core_labs" {
+  type        = string
+  description = "Github l12s-bot PAT"
+  default     = "little-core-labs"
 }
 
-resource "tfe_organization" "little_core_labs" {
-  name  = "little-core_labs"
-  email = "12core@littlstar.com"
-}
-
-resource "tfe_workspace" "tf_cloud" {
+data "tfe_workspace" "test" {
   name         = "tf-cloud"
-  organization = tfe_organization.little_core_labs.name
+  organization = var.tfe_little_core_labs
 }
 
 resource "tfe_workspace" "rad_live" {
   name         = "rad-live"
-  organization = tfe_organization.little_core_labs.name
+  organization = var.tfe_little_core_labs
 }
